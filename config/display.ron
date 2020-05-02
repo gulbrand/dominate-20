@@ -1,0 +1,4 @@
+(
+    title: "simple_window",
+    dimensions: Some((640,480))
+)
