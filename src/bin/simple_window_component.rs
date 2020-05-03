@@ -3,7 +3,7 @@ use std::borrow::BorrowMut;
 use amethyst::{Application, DataInit, GameData, GameDataBuilder, SimpleState, StateData};
 use amethyst::core::transform::{Transform, TransformBundle};
 use amethyst::ecs::prelude::{Component, DenseVecStorage};
-use amethyst::input::StringBindings;
+use amethyst::input::{InputBundle, StringBindings};
 use amethyst::prelude::{Builder, World, WorldExt};
 use amethyst::renderer::{Camera, RenderingBundle};
 use amethyst::renderer::plugins::{RenderFlat2D, RenderToWindow};
@@ -72,6 +72,7 @@ pub fn main() -> amethyst::Result<()> {
     let clear_color = [0.98, 0.98, 0.96, 1.0];
     let game_data = GameDataBuilder::default()
         .with_bundle(TransformBundle::new())?
+        .with_bundle(InputBundle::<StringBindings>::new())?
         // .with_bundle(UiBundle::<StringBindings>::new())?
         .with_bundle(
             RenderingBundle::<DefaultBackend>::new()
