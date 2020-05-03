@@ -1,15 +1,16 @@
 use std::borrow::BorrowMut;
 
-use amethyst::{Application, DataInit, GameData, GameDataBuilder, SimpleState, StateData};
+use amethyst::{Application, DataInit, GameData, GameDataBuilder, SimpleState, StateData, StateEvent, SimpleTrans, Trans};
 use amethyst::core::transform::{Transform, TransformBundle};
 use amethyst::ecs::prelude::{Component, DenseVecStorage};
-use amethyst::input::{InputBundle, StringBindings};
+use amethyst::input::{is_close_requested, is_key_down, InputBundle, StringBindings};
 use amethyst::prelude::{Builder, World, WorldExt};
 use amethyst::renderer::{Camera, RenderingBundle};
 use amethyst::renderer::plugins::{RenderFlat2D, RenderToWindow};
 use amethyst::renderer::types::DefaultBackend;
 use amethyst::ui::{RenderUi, UiBundle};
 use amethyst::utils::application_root_dir;
+use amethyst::winit::VirtualKeyCode;
 
 pub struct SimpleWindow;
 
@@ -57,6 +58,25 @@ impl SimpleState for SimpleWindow {
         init_camera(world);
         init_thing(world);
     }
+
+    fn handle_event(
+        &mut self,
+        _: StateData<'_, GameData<'_, '_>>,
+        event: StateEvent,
+    ) -> SimpleTrans {
+        println!("handle_event called {:?}", event);
+        match &event {
+            StateEvent::Window(event) => {
+                if is_close_requested(&event) || is_key_down(&event, VirtualKeyCode::Escape) {
+                    println!("quiting");
+                    Trans::Quit
+                } else {
+                    Trans::None
+                }
+            },
+            _ => Trans::None,
+        }
+    }
 }
 
 pub fn main() -> amethyst::Result<()> {
@@ -88,6 +108,5 @@ pub fn main() -> amethyst::Result<()> {
     let mut game =
         Application::new(assets_dir, SimpleWindow, game_data)?;
     game.run();
-
     Ok(())
 }
