@@ -1,0 +1,37 @@
+#![enable(implicit_some)]
+Container(
+    transform: (
+        id: "background",
+        anchor: Middle,
+        stretch: XY( x_margin: 0., y_margin: 0., keep_aspect_ratio: false),
+        width: 20.,
+        height: 20.,
+    ),
+    background: SolidColor(0.98, 0.98, 0.96, 1.0),
+    children: [
+        // Parenting test
+        Container(
+            transform: (
+                id: "top_right",
+                x: -32.,
+                y: -32.,
+                width: 64.,
+                height: 64.,
+                anchor: TopRight,
+            ),
+            background: SolidColor(0.01, 0.02, 0.01, 1.0),
+            children: [
+                Image(
+                    transform: (
+                        id: "middle_top_right",
+                        width: 32.,
+                        height: 32.,
+                        anchor: Middle,
+                        stretch: XY( x_margin: 0., y_margin: 10., keep_aspect_ratio: false),
+                    ),
+                    image: SolidColor(0.01, 0.03, 0.02, 1.0),
+                ),
+            ]
+        ),
+    ],
+)
